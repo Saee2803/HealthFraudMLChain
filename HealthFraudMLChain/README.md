@@ -306,7 +306,7 @@ HealthFraudMLChain/
 ├── secret.key                   # 🔑 Secret key
 ├── aes_key.bin                  # 🔐 AES encryption key
 │
-├── requirements_fixed.txt       # 📦 Python dependencies
+├── requirements_txt       # 📦 Python dependencies
 ├── start.bat                    # 🚀 Windows startup script
 └── README.md                    # 📖 This file
 ```
@@ -350,7 +350,7 @@ source venv/bin/activate
 #### 3. Install Dependencies
 
 ```powershell
-pip install -r requirements_fixed.txt
+pip install -r requirements_.txt
 ```
 
 #### 4. Configure Environment Variables
@@ -932,7 +932,7 @@ Error: ModuleNotFoundError: No module named 'xxx'
 **Solution**: Install missing dependencies
 
 ```powershell
-pip install -r requirements_fixed.txt
+pip install -r requirements_.txt
 ```
 
 #### 4. Session Issues
