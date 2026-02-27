@@ -1,0 +1,51 @@
+# Virtual environments
+.venv/
+venv/
+myenv/
+myenv310/
+code/myenv/
+code/myenv310/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment variables and secrets
+.env
+*.env
+aes_key.bin
+*.key
+*.pem
+kaggle.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Byte-compiled / optimized files
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Database files
+*.db
+*.sqlite3
+
+# Log files
+*.log

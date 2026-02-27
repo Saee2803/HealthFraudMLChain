@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Insurance Claim Form</title>
+</head>
+<body>
+    <h2>Health Insurance Claim Form</h2>
+    <form action="/submit_claim" method="POST">
+        <label>Patient Name:</label><br>
+        <input type="text" name="patient_name" required><br>
+
+        <label>Hospital Name:</label><br>
+        <input type="text" name="hospital_name" required><br>
+
+        <label>Treatment Cost:</label><br>
+        <input type="number" name="treatment_cost" required><br>
+
+        <label>Disease:</label><br>
+        <input type="text" name="disease" required><br>
+
+        <label>Days Admitted:</label><br>
+        <input type="number" name="days_admitted" required><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

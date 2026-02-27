@@ -1,0 +1,301 @@
+<mxfile host="app.diagrams.net" modified="2026-01-29T10:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram name="HealthFraudMLChain Architecture" id="methodology-diagram">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="HealthFraudMLChain - System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="20" width="400" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- PATIENT -->
+        <mxCell id="patient" value="Patient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="375" y="70" width="100" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow to Claim -->
+        <mxCell id="arr1" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="105" as="sourcePoint" />
+            <mxPoint x="425" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Claim Submission -->
+        <mxCell id="claim" value="Claim Submission" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="350" y="135" width="150" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow to ML -->
+        <mxCell id="arr2" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="170" as="sourcePoint" />
+            <mxPoint x="425" y="195" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ML Fraud Detection Box -->
+        <mxCell id="ml-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="250" y="200" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ml-title" value="ML Fraud Detection Engine" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="325" y="205" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="tfidf" value="TF-IDF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="265" y="230" width="70" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="rf" value="Random Forest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="355" y="230" width="90" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="score" value="Fraud Score" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="465" y="230" width="80" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="xai" value="XAI Explainer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="355" y="260" width="140" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="ml-arr1" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="335" y="242" as="sourcePoint" />
+            <mxPoint x="355" y="242" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ml-arr2" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#b85450;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="445" y="242" as="sourcePoint" />
+            <mxPoint x="465" y="242" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Arrow to Doctor -->
+        <mxCell id="arr3" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="290" as="sourcePoint" />
+            <mxPoint x="425" y="315" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Doctor Review Box -->
+        <mxCell id="doc-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="320" width="290" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="doc-title" value="Doctor Review &amp; ECDSA Signature" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="325" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="doc-review" value="Clinical Review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="295" y="348" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="doc-sign" value="🔐 Digital Signature" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="385" y="348" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="doc-approve" value="✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="505" y="348" width="25" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="doc-reject" value="✗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="535" y="348" width="25" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow to Admin -->
+        <mxCell id="arr4" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="375" as="sourcePoint" />
+            <mxPoint x="425" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Admin Review Box -->
+        <mxCell id="admin-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="405" width="290" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-title" value="Admin Final Approval &amp; ECDSA Signature" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="295" y="410" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-verify" value="Compliance Check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="295" y="433" width="95" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-sign" value="🔐 Digital Signature" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="400" y="433" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-final" value="✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="433" width="25" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow to Rules -->
+        <mxCell id="arr5" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="460" as="sourcePoint" />
+            <mxPoint x="425" y="485" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Smart Contract Rules -->
+        <mxCell id="rules-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="280" y="490" width="290" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rules-title" value="Smart-Contract-Like Rules Validation" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="495" width="230" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="rule1" value="fraud_score &lt; 0.5" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=8;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="290" y="515" width="90" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="rule2" value="doctor_approved" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=8;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="290" y="532" width="90" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="rule3" value="admin_approved" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=8;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="390" y="515" width="85" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="rule4" value="signatures_valid" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=8;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="390" y="532" width="85" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="rules-pass" value="✓ Pass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="485" y="520" width="45" height="22" as="geometry" />
+        </mxCell>
+        
+        <!-- Arrow to Blockchain -->
+        <mxCell id="arr6" value="" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#666666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="550" as="sourcePoint" />
+            <mxPoint x="425" y="575" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Blockchain Box -->
+        <mxCell id="bc-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="250" y="580" width="350" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="bc-title" value="Blockchain Record (ECIES Encrypted)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="585" width="230" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="block1" value="Block 1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="270" y="610" width="55" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="block2" value="Block 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="340" y="610" width="55" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="block3" value="Block 3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="410" y="610" width="55" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="blockn" value="Block N" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="610" width="55" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="bc-arr1" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="325" y="622" as="sourcePoint" />
+            <mxPoint x="340" y="622" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bc-arr2" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="395" y="622" as="sourcePoint" />
+            <mxPoint x="410" y="622" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bc-arr3" value="" style="endArrow=classic;html=1;strokeWidth=1;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="465" y="622" as="sourcePoint" />
+            <mxPoint x="480" y="622" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hash-label" value="SHA256 Hash Chain → Immutable" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="310" y="638" width="180" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="mongo" value="MongoDB" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="540" y="605" width="50" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- SECURITY ARCHITECTURE (Right Side) -->
+        <mxCell id="sec-title" value="Five-Layer Security" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="640" y="200" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="layer5" value="L5: Integrity Verification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="630" y="225" width="160" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="layer4" value="L4: ECIES Encryption" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="630" y="258" width="160" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="layer3" value="L3: ECDSA Digital Signatures" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="630" y="291" width="160" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="layer2" value="L2: Smart Contract Rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="630" y="324" width="160" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="layer1" value="L1: Role-Based Access Control" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="630" y="357" width="160" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="foundation" value="Blockchain Foundation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;align=center;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="630" y="390" width="160" height="28" as="geometry" />
+        </mxCell>
+        
+        <!-- Key Features Box (Right Side Bottom) -->
+        <mxCell id="features-title" value="Key Features" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="440" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="feat1" value="• Random Forest Classifier" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="630" y="460" width="160" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="feat2" value="• Explainable AI (XAI)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="630" y="475" width="160" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="feat3" value="• Collusion Detection" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="630" y="490" width="160" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="feat4" value="• Insider Threat Monitoring" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="630" y="505" width="160" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="feat5" value="• Real-time Notifications" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="630" y="520" width="160" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="feat6" value="• Audit Trail &amp; Compliance" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="630" y="535" width="160" height="15" as="geometry" />
+        </mxCell>
+        
+        <!-- Roles (Left Side) -->
+        <mxCell id="roles-title" value="User Roles" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="200" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="role-patient" value="👤 Patient&lt;br&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;Submit Claims&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="role-doctor" value="👨‍⚕️ Doctor&lt;br&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;Review &amp;amp; Sign&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="role-admin" value="🔑 Admin&lt;br&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;Approve &amp;amp; Monitor&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="330" width="90" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Connecting lines from roles -->
+        <mxCell id="role-line1" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d6b656;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="250" as="sourcePoint" />
+            <mxPoint x="250" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="role-line2" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="300" as="sourcePoint" />
+            <mxPoint x="280" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="role-line3" value="" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#b85450;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="350" as="sourcePoint" />
+            <mxPoint x="280" y="425" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Data Flow Footer -->
+        <mxCell id="flow-title" value="Data Flow: Patient → ML Detection → Doctor Review → Admin Approval → Blockchain" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="670" width="450" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Figure Caption -->
+        <mxCell id="caption" value="Fig. 1: HealthFraudMLChain System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="275" y="695" width="300" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Claims | HealthFraudMLChain</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white !important;
+        }
+
+        .navbar-brand i {
+            color: #f093fb;
+        }
+
+        .nav-link-custom {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link-custom:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white !important;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0 4rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        /* Alert Styles */
+        .alert-custom {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Summary */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-mini {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-mini-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .stat-mini-icon.total { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .stat-mini-icon.pending { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .stat-mini-icon.approved { background: linear-gradient(135deg, #10b981, #059669); }
+        .stat-mini-icon.rejected { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        .stat-mini-info h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-mini-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Controls Card */
+        .controls-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .filter-select {
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #f8fafc;
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Table Card */
+        .table-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h5 {
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .claims-count {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Table Styles */
+        .table {
+            margin: 0;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 1rem 1.25rem;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody td {
+            padding: 1rem 1.25rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Patient Info Cell */
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .patient-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Amount Display */
+        .amount-display {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.875rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        /* Document Buttons */
+        .btn-doc {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .btn-doc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .no-docs {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Date Display */
+        .date-display {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Description Cell */
+        .description-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .empty-icon i {
+            font-size: 2.5rem;
+            color: #667eea;
+        }
+
+        .empty-state h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard_patient">
+                <i class="fas fa-shield-heart me-2"></i>HealthFraudMLChain
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="{{ url_for('claim_form') }}">
+                            <i class="fas fa-plus-circle me-1"></i> New Claim
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a href="{{ url_for('patient_dashboard') }}" class="btn-back">
+                            <i class="fas fa-arrow-left me-1"></i> Dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-custom fade-in-up">
+                            <i class="fas fa-info-circle me-2"></i>{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Page Header -->
+            <div class="page-header fade-in-up">
+                <h1 class="page-title">
+                    <i class="fas fa-file-medical me-2"></i>My Claims
+                </h1>
+                <p class="page-subtitle">View and track all your submitted insurance claims</p>
+            </div>
+
+            {% set pending_count = claims|selectattr('status', 'equalto', 'Pending')|list|length if claims else 0 %}
+            {% set approved_count = claims|selectattr('status', 'equalto', 'Approved')|list|length if claims else 0 %}
+            {% set rejected_count = claims|selectattr('status', 'equalto', 'Rejected')|list|length if claims else 0 %}
+
+            <!-- Stats Summary -->
+            <div class="stats-summary fade-in-up delay-1">
+                <div class="stat-mini">
+                    <div class="stat-mini-icon total">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="stat-mini-info">
+                        <h4>{{ claims|length if claims else 0 }}</h4>
+                        <p>Total Claims</p>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-mini-info">
+                        <h4>{{ pending_count }}</h4>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-mini-info">
+                        <h4>{{ approved_count }}</h4>
+                        <p>Approved</p>
+                    </div>
+                </div>
+                <div class="stat-mini">
+                    <div class="stat-mini-icon rejected">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-mini-info">
+                        <h4>{{ rejected_count }}</h4>
+                        <p>Rejected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter Controls -->
+            <div class="controls-card fade-in-up delay-2">
+                <div class="row align-items-center g-3">
+                    <div class="col-md-8">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search by patient name...">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="statusFilter" class="filter-select w-100">
+                            <option value="">All Status</option>
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claims Table -->
+            <div class="table-card fade-in-up delay-3">
+                <div class="table-header">
+                    <h5><i class="fas fa-list me-2"></i>Claims History</h5>
+                    <span class="claims-count">
+                        <i class="fas fa-file-medical me-1"></i>
+                        {{ claims|length if claims else 0 }} Claims
+                    </span>
+                </div>
+
+                {% if claims|length == 0 %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h4>No Claims Submitted Yet</h4>
+                    <p>Start by submitting your first insurance claim.</p>
+                    <a href="{{ url_for('claim_form') }}" class="btn-primary-custom">
+                        <i class="fas fa-plus-circle me-1"></i> Submit New Claim
+                    </a>
+                </div>
+                {% else %}
+                <div class="table-responsive">
+                    <table class="table" id="claimsTable">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Documents</th>
+                                <th>Admission</th>
+                                <th>Discharge</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="claimsTableBody">
+                            {% for claim in claims %}
+                            <tr>
+                                <td>
+                                    <div class="patient-info">
+                                        <div class="patient-avatar">
+                                            {{ claim.patient_name[0]|upper if claim.patient_name else 'P' }}
+                                        </div>
+                                        <span class="patient-name">{{ claim.patient_name | default('') }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="amount-display">₹{{ claim.claim_amount | default('0') }}</span>
+                                </td>
+                                <td>
+                                    {% if claim.status == 'Approved' %}
+                                        <span class="status-badge status-approved">
+                                            <i class="fas fa-check-circle"></i> Approved
+                                        </span>
+                                    {% elif claim.status == 'Rejected' %}
+                                        <span class="status-badge status-rejected">
+                                            <i class="fas fa-times-circle"></i> Rejected
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i> Pending
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if claim.documents and claim.documents|length > 0 %}
+                                        {% for doc in claim.documents %}
+                                            <a href="{{ url_for('static', filename='uploads/' ~ doc) }}" 
+                                               target="_blank" class="btn-doc">
+                                                <i class="fas fa-file-alt"></i> Doc {{ loop.index }}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="no-docs">
+                                            <i class="fas fa-minus-circle"></i> None
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="date-display">
+                                        <i class="fas fa-calendar-plus text-muted me-1"></i>
+                                        {{ claim.admission_date | default('-') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="date-display">
+                                        <i class="fas fa-calendar-check text-muted me-1"></i>
+                                        {{ claim.discharge_date | default('-') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="description-cell" title="{{ claim.claim_description | default('No description') }}">
+                                        {{ claim.claim_description | default('No description') }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const statusFilter = document.getElementById("statusFilter");
+        const tableBody = document.getElementById("claimsTableBody");
+
+        function filterTable() {
+            const text = searchInput.value.toLowerCase();
+            const statusVal = statusFilter.value.toLowerCase();
+            const rows = tableBody ? tableBody.getElementsByTagName("tr") : [];
+
+            Array.from(rows).forEach(row => {
+                const patient = row.cells[0].innerText.toLowerCase();
+                const status = row.cells[2].innerText.toLowerCase();
+
+                const matchesText = patient.includes(text) || status.includes(text);
+                const matchesStatus = !statusVal || status.includes(statusVal);
+
+                row.style.display = (matchesText && matchesStatus) ? "" : "none";
+            });
+        }
+
+        if (searchInput) searchInput.addEventListener("keyup", filterTable);
+        if (statusFilter) statusFilter.addEventListener("change", filterTable);
+    </script>
+
+</body>
+</html>

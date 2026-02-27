@@ -1,108 +1,80 @@
-from block import write_block, check_integrity
-from flask import Flask, render_template, request, redirect, session
-import pandas as pd
-import csv
-import warnings
-
-warnings.filterwarnings('ignore')
-df = pd.read_csv('block.csv')
-
-df1 = df['member_name']
-df2 = df['patient_suffix']
+from flask import Flask, render_template_string, request
+import pickle
+import numpy as np
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
 
-# Signup page
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+# Load model
+with open("model_training/model.pkl", "rb") as f:
+    model = pickle.load(f)
 
-        # Save signup data to the CSV file
-        with open('users.csv', 'a', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([username, password])
+# HTML form template
+form_template = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Claim Fraud Detection</title>
+</head>
+<body>
+    <h2>Enter Health Insurance Claim Details</h2>
+    <form method="POST">
+        Age: <input type="number" name="age" required><br><br>
+        Sex: 
+        <select name="sex">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select><br><br>
+        BMI: <input type="number" name="bmi" step="0.1" required><br><br>
+        Children: <input type="number" name="children" required><br><br>
+        Smoker:
+        <select name="smoker">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+        Region:
+        <select name="region">
+            <option value="northeast">Northeast</option>
+            <option value="northwest">Northwest</option>
+            <option value="southeast">Southeast</option>
+            <option value="southwest">Southwest</option>
+        </select><br><br>
+        Charges: <input type="number" name="charges" step="0.01" required><br><br>
+        <input type="submit" value="Predict">
+    </form>
 
-        return redirect('/login')
+    {% if prediction is not none %}
+        <h3>Result: {{ prediction }}</h3>
+    {% endif %}
+</body>
+</html>
+"""
 
-    return render_template('signup.html')
+# Encode categorical inputs like training data
+def preprocess_input(data):
+    sex = 1 if data['sex'] == 'male' else 0
+    smoker = 1 if data['smoker'] == 'yes' else 0
+    region_map = {'northeast': 0, 'northwest': 1, 'southeast': 2, 'southwest': 3}
+    region = region_map.get(data['region'].lower(), 0)
 
-# Login page
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    return [
+        float(data['age']),
+        sex,
+        float(data['bmi']),
+        int(data['children']),
+        smoker,
+        region,
+        float(data['charges'])
+    ]
 
-        # Check if the username and password match the saved signup data
-        with open('users.csv', 'r') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                if row[0] == username and row[1] == password:
-                    # Set session variable to indicate successful login
-                    session['logged_in'] = True
-                    session['username'] = username
-                    return redirect('/index')
-
-        # Invalid credentials
-        return render_template('login.html', error='Invalid credentials')
-
-    return render_template('login.html')
-
-# Index page
-@app.route('/index', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def index():
-    # Check if the user is logged in
-    if 'logged_in' in session and session['logged_in']:
-        if request.method == 'POST':
-            policy = request.form.get('level')
-            policy1 = request.form.get('level1')
-            policy2 = request.form.get('level2')
-            policy3 = request.form.get('level3')
-            policy4 = request.form.get('level4')
-            policy5 = request.form.get('level5')
-            policy6 = request.form.get('level6')
-            policy7 = request.form.get('level7')
-            policy8 = request.form.get('level8')
-            policy9 = request.form.get('level9')
-            policy10 = request.form.get('level10')
-            policy11 = request.form.get('level11')
-            policy12 = request.form.get('level12')
-            policy13 = request.form.get('level13')
-            policy14 = request.form.get('level14')
-            write_block(policy=policy, policy1=policy1, policy2=policy2, policy3=policy3, policy4=policy4, policy5=policy5, policy6=policy6, policy7=policy7, policy8=policy8, policy9=policy9, policy10=policy10,
-                        policy11=policy11, policy12=policy12, policy13=policy13, policy14=policy14)
+    prediction = None
+    if request.method == "POST":
+        input_data = preprocess_input(request.form)
+        input_array = np.array([input_data])
+        result = model.predict(input_array)[0]
+        prediction = "❌ Fraud Detected" if result == 1 else "✅ Claim is Genuine"
+    return render_template_string(form_template, prediction=prediction)
 
-        return render_template('index.html')
-    else:
-        return redirect('/login')
-
-# Search page
-@app.route("/search", methods=['POST'])
-def search():
-    dg = float(request.form.get("search"))
-    for i in range(len(df1)):
-        if df1[i] == dg:
-            j = i
-            tex = "Policy is Valid"
-            df2[j] = df2[j] + 500
-            df[j] = df2[j]
-            df.to_csv('update.csv')
-            return render_template("index.html", available=tex)
-    text = "Policy not found"
-    return render_template("index.html", notavail=text)
-
-# Checking page
-@app.route('/checking')
-def check():
-    results = check_integrity()
-    return render_template('index.html', checking_results=results)
-
-@app.route('/')
-def home():
-    return redirect('/login')
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,21 @@
+{
+    "member_name": "Saee",
+    "email": "saeebhanuskar@gmail.com",
+    "gender": "pen",
+    "location": "male",
+    "employer": "sdfg",
+    "relationship": "Unmarried",
+    "patient_name": "Aditi",
+    "patient_suffix": "0001",
+    "patient_dob": "2022-05-08",
+    "cause": "dengue",
+    "Fee_Charged": "01234",
+    "membership_period": "01234",
+    "number_of_claims": "1",
+    "number_of_dependants": "1",
+    "label": "1",
+    "prev_block": {
+        "hash": "57aa30a117ea3f09d9e1127ca4dba6ca",
+        "filename": "13"
+    }
+}

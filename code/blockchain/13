@@ -1,0 +1,21 @@
+{
+    "member_name": "Saee",
+    "email": "saeecb22hecse@student.mes.ac.in",
+    "gender": "pen",
+    "location": "male",
+    "employer": "sdfg",
+    "relationship": "Unmarried",
+    "patient_name": "Aditi",
+    "patient_suffix": "0001",
+    "patient_dob": "2022-05-08",
+    "cause": "dengue",
+    "Fee_Charged": "01234",
+    "membership_period": "01234",
+    "number_of_claims": "1",
+    "number_of_dependants": "1",
+    "label": "1",
+    "prev_block": {
+        "hash": "7d4b13f4667ec28b106a9e2f578db23e",
+        "filename": "12"
+    }
+}

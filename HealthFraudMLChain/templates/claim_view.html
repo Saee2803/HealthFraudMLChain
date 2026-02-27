@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Details | HealthFraudMLChain</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --purple-color: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white !important;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0 4rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Cards */
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header-custom {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-header-custom h5 {
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .card-icon.patient { background: linear-gradient(135deg, #3b82f6, #6366f1); }
+        .card-icon.ai { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
+        .card-icon.timeline { background: linear-gradient(135deg, #10b981, #059669); }
+        .card-icon.docs { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .card-icon.decision { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        .card-body-custom {
+            padding: 1.5rem;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 0.35rem;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-value.amount {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-approved {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+
+        /* Prediction Badges */
+        .prediction-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .prediction-fraud {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.15));
+            color: #dc2626;
+        }
+
+        .prediction-legit {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15));
+            color: #059669;
+        }
+
+        .probability-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: white;
+        }
+
+        .prob-high { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .prob-medium { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .prob-low { background: linear-gradient(135deg, #10b981, #059669); }
+
+        /* XAI Card */
+        .xai-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 14px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .xai-title {
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .xai-reasons {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .xai-reasons li {
+            padding: 0.5rem 0;
+            color: #5b21b6;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .xai-reasons li i {
+            color: #8b5cf6;
+            margin-top: 0.2rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            z-index: 1;
+        }
+
+        .timeline-icon.approved { background: linear-gradient(135deg, #10b981, #059669); }
+        .timeline-icon.rejected { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .timeline-icon.blockchain { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .timeline-icon.system { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .timeline-icon.submitted { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+
+        .timeline-content {
+            background: #f8fafc;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .timeline-remarks {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .signature-badge {
+            background: #f0f0f0;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            color: #555;
+            border-left: 3px solid #8b5cf6;
+            margin-top: 0.75rem;
+        }
+
+        /* Document List */
+        .doc-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .doc-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .doc-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            color: white;
+        }
+
+        /* Decision Form */
+        .decision-form .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .decision-form .form-control,
+        .decision-form .form-select {
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .decision-form .form-control:focus,
+        .decision-form .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            color: white;
+        }
+
+        /* Description Box */
+        .description-box {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-heart me-2"></i>HealthFraudMLChain
+            </a>
+            <a href="{% if session.user.role == 'doctor' %}{{ url_for('dashboard_doctor') }}{% elif session.user.role == 'admin' %}{{ url_for('admin_dashboard') }}{% else %}{{ url_for('patient_dashboard') }}{% endif %}" 
+               class="btn-back">
+                <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} rounded-3 mb-3 fade-in-up">
+                            <i class="fas fa-info-circle me-2"></i>{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Page Header -->
+            <div class="page-header fade-in-up">
+                <h1 class="page-title">
+                    <i class="fas fa-file-medical me-2"></i>Claim Details
+                </h1>
+                {% if claim.status == 'Approved' %}
+                    <span class="status-badge status-approved">
+                        <i class="fas fa-check-circle"></i> Approved
+                    </span>
+                {% elif claim.status == 'Rejected' %}
+                    <span class="status-badge status-rejected">
+                        <i class="fas fa-times-circle"></i> Rejected
+                    </span>
+                {% else %}
+                    <span class="status-badge status-pending">
+                        <i class="fas fa-clock"></i> Pending Review
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Patient & Claim Information -->
+                    <div class="info-card fade-in-up delay-1">
+                        <div class="card-header-custom">
+                            <div class="card-icon patient">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h5>Patient & Claim Information</h5>
+                        </div>
+                        <div class="card-body-custom">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">Patient Name</div>
+                                    <div class="info-value">{{ claim.patient_name }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Age</div>
+                                    <div class="info-value">{{ claim.age }} years</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Gender</div>
+                                    <div class="info-value">{{ claim.gender }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Hospital</div>
+                                    <div class="info-value">{{ claim.hospital_name }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Doctor</div>
+                                    <div class="info-value">{{ claim.doctor_name }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Claim Amount</div>
+                                    <div class="info-value amount">₹{{ claim.claim_amount|default('0') }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Treatment Type</div>
+                                    <div class="info-value">{{ claim.treatment_type }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Admission Date</div>
+                                    <div class="info-value">{{ claim.admission_date|datetimeformat }}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Discharge Date</div>
+                                    <div class="info-value">{{ claim.discharge_date|datetimeformat }}</div>
+                                </div>
+                            </div>
+
+                            <div class="description-box">
+                                <div class="info-label">Claim Description</div>
+                                <p class="mb-0" style="color: var(--text-primary);">{{ claim.claim_description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Fraud Analysis -->
+                    <div class="info-card fade-in-up delay-2">
+                        <div class="card-header-custom">
+                            <div class="card-icon ai">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h5>AI Fraud Analysis</h5>
+                        </div>
+                        <div class="card-body-custom">
+                            <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+                                <div>
+                                    <span class="info-label d-block mb-1">Prediction</span>
+                                    {% if claim.prediction == "Fraudulent Claim" %}
+                                        <span class="prediction-badge prediction-fraud">
+                                            <i class="fas fa-exclamation-triangle"></i> {{ claim.prediction }}
+                                        </span>
+                                    {% else %}
+                                        <span class="prediction-badge prediction-legit">
+                                            <i class="fas fa-check-circle"></i> {{ claim.prediction }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <span class="info-label d-block mb-1">Fraud Probability</span>
+                                    {% set prob_val = claim.fraud_probability|default(0)|float %}
+                                    {% if prob_val >= 0.85 %}
+                                        <span class="probability-badge prob-high">{{ (prob_val * 100)|round(1) }}%</span>
+                                    {% elif prob_val >= 0.5 %}
+                                        <span class="probability-badge prob-medium">{{ (prob_val * 100)|round(1) }}%</span>
+                                    {% else %}
+                                        <span class="probability-badge prob-low">{{ (prob_val * 100)|round(1) }}%</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% if claim.fraud_reasons %}
+                            <div class="xai-card">
+                                <div class="xai-title">
+                                    <i class="fas fa-chart-pie"></i> Fraud Detection Indicators
+                                </div>
+                                <ul class="xai-reasons">
+                                    {% for reason in claim.fraud_reasons %}
+                                        <li><i class="fas fa-chevron-right"></i> {{ reason }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Audit Trail Timeline -->
+                    <div class="info-card fade-in-up delay-3">
+                        <div class="card-header-custom">
+                            <div class="card-icon timeline">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h5>Audit Trail & Timeline</h5>
+                        </div>
+                        <div class="card-body-custom">
+                            {% if claim.audit_log and claim.audit_log|length > 0 %}
+                                <div class="timeline">
+                                    {% for log in claim.audit_log|reverse %}
+                                        {% set log_type = log.action|lower %}
+                                        <div class="timeline-item">
+                                            <div class="timeline-icon {% if 'approved' in log_type %}approved{% elif 'rejected' in log_type %}rejected{% elif 'blockchain' in log_type or log.role == 'blockchain' %}blockchain{% elif 'submitted' in log_type %}submitted{% else %}system{% endif %}">
+                                                {% if 'approved' in log_type %}
+                                                    <i class="fas fa-check"></i>
+                                                {% elif 'rejected' in log_type %}
+                                                    <i class="fas fa-times"></i>
+                                                {% elif 'blockchain' in log_type %}
+                                                    <i class="fas fa-link"></i>
+                                                {% elif 'submitted' in log_type %}
+                                                    <i class="fas fa-upload"></i>
+                                                {% else %}
+                                                    <i class="fas fa-info"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="timeline-content">
+                                                <div class="timeline-title">{{ log.action }}</div>
+                                                <div class="timeline-meta">
+                                                    <i class="fas fa-user me-1"></i> {{ log.by }} ({{ log.role|title }})
+                                                    <span class="mx-2">•</span>
+                                                    <i class="fas fa-clock me-1"></i> {{ log.timestamp|ist_time }}
+                                                </div>
+                                                {% if log.remarks %}
+                                                    <div class="timeline-remarks">
+                                                        <i class="fas fa-comment-alt me-1"></i> {{ log.remarks }}
+                                                    </div>
+                                                {% endif %}
+                                                {% if log.digital_signature %}
+                                                    <div class="signature-badge">
+                                                        <i class="fas fa-key me-1"></i> Signature: {{ log.digital_signature[:20] }}...
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="empty-state">
+                                    <i class="fas fa-history fa-2x mb-2 text-muted"></i>
+                                    <p>No audit history available yet.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Documents Card -->
+                    <div class="info-card fade-in-up delay-2">
+                        <div class="card-header-custom">
+                            <div class="card-icon docs">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h5>Uploaded Documents</h5>
+                        </div>
+                        <div class="card-body-custom">
+                            {% if claim.documents %}
+                                <div class="doc-list">
+                                    {% for doc in claim.documents %}
+                                        <a href="{{ url_for('static', filename='uploads/' ~ doc) }}" target="_blank" class="doc-item">
+                                            <i class="fas fa-file-pdf"></i>
+                                            {{ doc[:20] }}{% if doc|length > 20 %}...{% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="empty-state">
+                                    <i class="fas fa-folder-open fa-2x mb-2 text-muted"></i>
+                                    <p>No documents uploaded.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Decision Form (Doctor/Admin only) -->
+                    {% if session.user.role in ['doctor', 'admin'] %}
+                    <div class="info-card fade-in-up delay-3">
+                        <div class="card-header-custom">
+                            <div class="card-icon decision">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <h5>Update Decision</h5>
+                        </div>
+                        <div class="card-body-custom">
+                            <form method="post" action="{{ url_for('update_claim_status', claim_id=claim._id) }}" class="decision-form">
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select" name="status" required>
+                                        <option value="Pending" {% if claim.status=='Pending' %}selected{% endif %}>
+                                            ⏳ Pending
+                                        </option>
+                                        <option value="Approved" {% if claim.status=='Approved' %}selected{% endif %}>
+                                            ✅ Approved
+                                        </option>
+                                        <option value="Rejected" {% if claim.status=='Rejected' %}selected{% endif %}>
+                                            ❌ Rejected
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Remarks</label>
+                                    <textarea class="form-control" name="remarks" rows="4" 
+                                              placeholder="Enter your observation or reason...">{{ claim.remarks if claim.remarks is defined else "" }}</textarea>
+                                </div>
+
+                                <button type="submit" class="btn-save w-100">
+                                    <i class="fas fa-save me-2"></i>Save Decision
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

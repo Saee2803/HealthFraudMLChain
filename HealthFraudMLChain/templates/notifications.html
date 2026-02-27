@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - HealthFraudMLChain</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .notification-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .notification-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .notification-header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-header .badge {
+            background: rgba(255,255,255,0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .notification-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .notification-item.unread {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+        }
+
+        .notification-item-content {
+            display: flex;
+            gap: 15px;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+
+        .notification-icon.claim_submitted {
+            background: #d4edff;
+            color: #0066cc;
+        }
+
+        .notification-icon.doctor_reviewed {
+            background: #fff4e6;
+            color: #ff9800;
+        }
+
+        .notification-icon.claim_reviewed {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .notification-icon.fraud_detected {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .notification-icon.blockchain_added {
+            background: #f3e5f5;
+            color: #9c27b0;
+        }
+
+        .notification-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .notification-message {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+            word-wrap: break-word;
+        }
+
+        .notification-time {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .notification-priority {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .priority-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .priority-normal {
+            background: #e8eaf6;
+            color: #283593;
+        }
+
+        .priority-low {
+            background: #f1f8e9;
+            color: #558b2f;
+        }
+
+        .notification-action {
+            margin-left: 10px;
+        }
+
+        .notification-action button {
+            border: none;
+            background: none;
+            color: #999;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .notification-action button:hover {
+            color: #f44336;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .pagination-wrapper {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pagination-wrapper .btn-sm {
+            min-width: 50px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .notification-container {
+                margin: 10px;
+            }
+
+            .notification-header h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification-container">
+        <!-- Header -->
+        <div class="notification-header">
+            <h2>
+                <i class="fas fa-bell"></i>
+                Notifications
+                <span class="badge">{{ total_count }} total</span>
+            </h2>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="notification-body">
+            {% if notifications %}
+                {% for notif in notifications %}
+                    <div class="notification-item {% if not notif.seen %}unread{% endif %}" data-id="{{ notif._id }}">
+                        <div class="notification-item-content">
+                            <!-- Icon based on type -->
+                            {% if notif.notification_type == 'claim_submitted' %}
+                                <div class="notification-icon claim_submitted">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                            {% elif notif.notification_type == 'doctor_reviewed' %}
+                                <div class="notification-icon doctor_reviewed">
+                                    <i class="fas fa-stethoscope"></i>
+                                </div>
+                            {% elif notif.notification_type == 'claim_reviewed' %}
+                                <div class="notification-icon claim_reviewed">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            {% elif notif.notification_type == 'fraud_detected' %}
+                                <div class="notification-icon fraud_detected">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            {% elif notif.notification_type == 'blockchain_added' %}
+                                <div class="notification-icon blockchain_added">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                            {% else %}
+                                <div class="notification-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                            {% endif %}
+
+                            <!-- Message content -->
+                            <div class="notification-text">
+                                <p class="notification-title">
+                                    {% if notif.notification_type == 'claim_submitted' %}
+                                        New Claim Submitted
+                                    {% elif notif.notification_type == 'doctor_reviewed' %}
+                                        Doctor Review Complete
+                                    {% elif notif.notification_type == 'claim_reviewed' %}
+                                        Claim Decision
+                                    {% elif notif.notification_type == 'fraud_detected' %}
+                                        Fraud Alert
+                                    {% elif notif.notification_type == 'blockchain_added' %}
+                                        Blockchain Recorded
+                                    {% else %}
+                                        Notification
+                                    {% endif %}
+                                </p>
+                                <p class="notification-message">{{ notif.message }}</p>
+                                <div>
+                                    <span class="notification-priority priority-{{ notif.priority }}">
+                                        {{ notif.priority|upper }}
+                                    </span>
+                                </div>
+                                <p class="notification-time">
+                                    <i class="fas fa-clock"></i>
+                                    {% if notif.created_at %}
+                                        {{ notif.created_at.strftime('%b %d, %Y at %I:%M %p') }}
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <!-- Action buttons -->
+                            <div class="notification-action">
+                                <button class="btn-delete" onclick="deleteNotification('{{ notif._id }}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No Notifications</h3>
+                    <p>You're all caught up! Check back later for updates.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+            <div class="pagination-wrapper">
+                {% if page > 1 %}
+                    <a href="{{ url_for('notifications_list', page=page-1) }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </a>
+                {% endif %}
+
+                <span style="display: flex; align-items: center; gap: 5px;">
+                    Page {{ page }} of {{ total_pages }}
+                </span>
+
+                {% if page < total_pages %}
+                    <a href="{{ url_for('notifications_list', page=page+1) }}" class="btn btn-sm btn-outline-primary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <a href="javascript:history.back()" class="btn btn-light back-button" title="Go back">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <script>
+        function deleteNotification(notificationId) {
+            if (confirm('Delete this notification?')) {
+                fetch(`/api/notifications/delete/${notificationId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector(`[data-id="${notificationId}"]`).remove();
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>

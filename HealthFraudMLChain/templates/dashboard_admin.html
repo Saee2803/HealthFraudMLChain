@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - HealthGuard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f4f8 50%, #fdf4ff 100%);
+            min-height: 100vh;
+        }
+        
+        /* Navbar */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .brand-text h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+        
+        .brand-text span {
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-btn-outline {
+            background: white;
+            color: var(--dark);
+            border: 2px solid #e2e8f0;
+        }
+        
+        .nav-btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn-primary {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .nav-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            color: white;
+        }
+        
+        .nav-btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+        }
+        
+        .nav-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+            color: white;
+        }
+        
+        .notification-btn {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+        
+        .notification-btn:hover {
+            border-color: var(--info);
+            color: var(--info);
+            transform: translateY(-2px);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            border-radius: 50%;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Alert */
+        .alert-custom {
+            background: linear-gradient(135deg, #dcfce7, #d1fae5);
+            border: none;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            color: #166534;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .alert-custom i {
+            font-size: 1.2rem;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            opacity: 0.1;
+            transition: all 0.4s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card.blue::before { background: var(--info); }
+        .stat-card.green::before { background: var(--success); }
+        .stat-card.red::before { background: var(--danger); }
+        .stat-card.yellow::before { background: var(--warning); }
+        
+        .stat-card:hover::before {
+            transform: scale(1.5);
+            opacity: 0.15;
+        }
+        
+        .stat-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+        
+        .stat-card.blue .stat-icon {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+        }
+        
+        .stat-card.green .stat-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+        }
+        
+        .stat-card.red .stat-icon {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.35);
+        }
+        
+        .stat-card.yellow .stat-icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1;
+        }
+        
+        /* Action Bar */
+        .action-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .filter-tab.active-warning {
+            background: var(--warning);
+            border-color: var(--warning);
+            color: white;
+        }
+        
+        .filter-tab.active-success {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        
+        .filter-tab.active-danger {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+        
+        .filter-tab .count {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .add-doctor-btn {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .add-doctor-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            color: white;
+        }
+        
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        
+        .table-modern {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-modern thead {
+            background: linear-gradient(135deg, #1e293b, #334155);
+        }
+        
+        .table-modern thead th {
+            padding: 1.1rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        
+        .table-modern tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+        }
+        
+        .table-modern tbody tr:hover {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+        }
+        
+        .table-modern tbody td {
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark);
+            vertical-align: middle;
+        }
+        
+        /* Patient Info Cell */
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .patient-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .patient-avatar.male {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .patient-avatar.female {
+            background: linear-gradient(135deg, #ec4899, #db2777);
+        }
+        
+        .patient-details h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0;
+        }
+        
+        .patient-details a h4 {
+            color: var(--primary);
+            transition: all 0.2s ease;
+        }
+        
+        .patient-details a:hover h4 {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        .patient-details span {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Amount */
+        .amount-cell {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        
+        .amount-cell .currency {
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        /* Date Cell */
+        .date-cell {
+            font-size: 0.85rem;
+        }
+        
+        .date-cell .date {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .date-cell .label {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        /* Document Link */
+        .doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #eff6ff;
+            color: var(--info);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .doc-link:hover {
+            background: var(--info);
+            color: white;
+        }
+        
+        /* Risk Badge */
+        .risk-badge {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .risk-indicator {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .risk-indicator.high {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .risk-indicator.medium {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .risk-indicator.low {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .risk-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .risk-label.high { color: var(--danger); }
+        .risk-label.medium { color: var(--warning); }
+        .risk-label.low { color: var(--success); }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-badge.approved {
+            background: linear-gradient(135deg, #dcfce7, #d1fae5);
+            color: #166534;
+        }
+        
+        .status-badge.rejected {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+        }
+        
+        .status-badge.pending-verified {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+        }
+        
+        .status-badge.pending-waiting {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            color: #475569;
+        }
+        
+        .doctor-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .doctor-badge.verified {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .doctor-badge.rejected {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .doctor-badge.waiting {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        /* Update Form */
+        .update-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .update-form select {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .update-form select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .btn-update {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--info), #2563eb);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-custom {
+                padding: 1rem;
+            }
+            
+            .nav-actions {
+                gap: 8px;
+            }
+            
+            .nav-btn span {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stat-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar-custom">
+    <div class="d-flex justify-content-between align-items-center w-100">
+        <div class="brand-logo">
+            <div class="brand-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="brand-text">
+                <h1>HealthGuard</h1>
+                <span>Admin Control Center</span>
+            </div>
+        </div>
+        
+        <div class="nav-actions">
+            <a href="{{ url_for('notifications_list') }}" class="notification-btn" title="Notifications">
+                <i class="fas fa-bell"></i>
+                {% if unread_notification_count and unread_notification_count > 0 %}
+                    <span class="notification-badge">{{ unread_notification_count }}</span>
+                {% endif %}
+            </a>
+            <a href="{{ url_for('admin_blockchain') }}" class="nav-btn nav-btn-outline">
+                <i class="fas fa-cubes"></i>
+                <span>Blockchain</span>
+            </a>
+            <a href="{{ url_for('logout') }}" class="nav-btn nav-btn-danger">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-container">
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert-custom">
+                    <i class="fas fa-check-circle"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card blue">
+            <div class="stat-icon">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <div class="stat-label">Total Claims</div>
+            <div class="stat-value">{{ total_claims }}</div>
+        </div>
+        
+        <div class="stat-card green">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-label">Approved</div>
+            <div class="stat-value">{{ approved_claims }}</div>
+        </div>
+        
+        <div class="stat-card red">
+            <div class="stat-icon">
+                <i class="fas fa-times-circle"></i>
+            </div>
+            <div class="stat-label">Rejected</div>
+            <div class="stat-value">{{ rejected_claims }}</div>
+        </div>
+        
+        <div class="stat-card yellow">
+            <div class="stat-icon">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+            <div class="stat-label">Pending</div>
+            <div class="stat-value">{{ claims|selectattr('status','equalto','Pending')|list|length }}</div>
+        </div>
+    </div>
+    
+    <!-- Action Bar -->
+    <div class="action-bar">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="filter-section">
+                <span class="filter-label">Filter by Status:</span>
+                <div class="filter-tabs">
+                    <a href="{{ url_for('admin_dashboard', filter_type='all', search_name=request.args.get('search_name', '')) }}" 
+                       class="filter-tab {% if request.args.get('filter_type', 'all') == 'all' %}active{% endif %}">
+                        <i class="fas fa-layer-group"></i> All Claims
+                    </a>
+                    <a href="{{ url_for('admin_dashboard', filter_type='pending', search_name=request.args.get('search_name', '')) }}" 
+                       class="filter-tab {% if request.args.get('filter_type') == 'pending' %}active-warning{% endif %}">
+                        <i class="fas fa-user-md"></i> Doctor Approved
+                    </a>
+                    <a href="{{ url_for('admin_dashboard', filter_type='approved', search_name=request.args.get('search_name', '')) }}" 
+                       class="filter-tab {% if request.args.get('filter_type') == 'approved' %}active-success{% endif %}">
+                        <i class="fas fa-check"></i> Approved
+                    </a>
+                    <a href="{{ url_for('admin_dashboard', filter_type='rejected', search_name=request.args.get('search_name', '')) }}" 
+                       class="filter-tab {% if request.args.get('filter_type') == 'rejected' %}active-danger{% endif %}">
+                        <i class="fas fa-times"></i> Rejected
+                    </a>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-3 align-items-center flex-wrap">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search patient, hospital, doctor, treatment...">
+                </div>
+                <a href="{{ url_for('add_doctor') }}" class="add-doctor-btn">
+                    <i class="fas fa-user-plus"></i>
+                    Add Doctor
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Claims Table -->
+    <div class="table-container">
+        <table class="table-modern" id="claimsTable">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Treatment</th>
+                    <th>Hospital</th>
+                    <th>Doctor</th>
+                    <th>Amount</th>
+                    <th>Stay Period</th>
+                    <th>Documents</th>
+                    <th>ML Risk</th>
+                    <th>Admin Status</th>
+                    <th>Doctor Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for claim in claims %}
+                <tr>
+                    <td>
+                        <div class="patient-info">
+                            <div class="patient-avatar {{ 'male' if claim.gender == 'Male' else 'female' }}">
+                                {{ claim.patient_name[0] if claim.patient_name else 'P' }}
+                            </div>
+                            <div class="patient-details">
+                                <a href="{{ url_for('claim_view', claim_id=claim._id) }}" style="text-decoration: none; color: inherit;">
+                                    <h4 style="color: var(--primary); cursor: pointer;">{{ claim.patient_name }}</h4>
+                                </a>
+                                <span>{{ claim.age }} yrs &bull; {{ claim.gender }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="max-width: 180px;">
+                            <span style="font-weight: 500;">{{ claim.treatment_type }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="font-weight: 500; color: var(--gray);">{{ claim.hospital_name }}</span>
+                    </td>
+                    <td>
+                        <span style="font-weight: 500;">{{ claim.doctor_name }}</span>
+                    </td>
+                    <td class="amount-cell">
+                        <span class="currency">&#8377;</span> {{ claim.claim_amount|default('0') }}
+                    </td>
+                    <td class="date-cell">
+                        <div class="date">{{ claim.admission_date|datetimeformat }}</div>
+                        <div class="label">to {{ claim.discharge_date|datetimeformat }}</div>
+                    </td>
+                    <td>
+                        {% if claim.documents %}
+                            {% for doc in claim.documents %}
+                                <a href="{{ url_for('static', filename='uploads/' ~ doc) }}" target="_blank" class="doc-link">
+                                    <i class="fas fa-file-pdf"></i>
+                                    {{ doc[:20] }}...
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <span style="color: var(--gray); font-size: 0.85rem;">No docs</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set risk = (claim.fraud_probability * 100)|round(1) if claim.fraud_probability else 0 %}
+                        <div class="risk-badge">
+                            <div class="risk-indicator {% if risk >= 60 %}high{% elif risk >= 40 %}medium{% else %}low{% endif %}">
+                                {{ risk }}%
+                            </div>
+                            <span class="risk-label {% if risk >= 60 %}high{% elif risk >= 40 %}medium{% else %}low{% endif %}">
+                                {% if risk >= 60 %}High Risk{% elif risk >= 40 %}Medium{% else %}Low Risk{% endif %}
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        {% if claim.status == 'Approved' %}
+                            <span class="status-badge approved"><i class="fas fa-check"></i> Approved</span>
+                        {% elif claim.status == 'Rejected' %}
+                            <span class="status-badge rejected"><i class="fas fa-times"></i> Rejected</span>
+                        {% else %}
+                            {% if claim.doctor_approved == True %}
+                                <span class="status-badge pending-verified"><i class="fas fa-user-md"></i> Doctor Verified</span>
+                            {% else %}
+                                <span class="status-badge pending-waiting"><i class="fas fa-clock"></i> Waiting Doctor</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if claim.doctor_approved is sameas true %}
+                            <span class="doctor-badge verified"><i class="fas fa-check"></i> Verified</span>
+                        {% elif claim.doctor_approved is sameas false %}
+                            <span class="doctor-badge rejected"><i class="fas fa-times"></i> Rejected</span>
+                        {% else %}
+                            <span class="doctor-badge waiting"><i class="fas fa-clock"></i> Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" class="update-form update-status" action="{{ url_for('update_claim_status', claim_id=claim._id) }}">
+                            <select name="status">
+                                <option value="Pending" {% if claim.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="Approved" {% if claim.status == 'Approved' %}selected{% endif %}>Approve</option>
+                                <option value="Rejected" {% if claim.status == 'Rejected' %}selected{% endif %}>Reject</option>
+                            </select>
+                            <button type="submit" class="btn-update">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="11">
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <h3>No claims found</h3>
+                            <p>There are no claims matching your criteria.</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Confirm before updating status
+    document.querySelectorAll("form.update-status").forEach(form => {
+        form.addEventListener("submit", (e) => {
+            if (!confirm("Are you sure you want to update this claim's status?")) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Search filter
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#claimsTable tbody tr");
+
+        rows.forEach(row => {
+            let text = row.textContent.toLowerCase();
+            row.style.display = text.includes(filter) ? "" : "none";
+        });
+    });
+</script>
+
+</body>
+</html>
