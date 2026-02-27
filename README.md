@@ -997,8 +997,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 For questions or support:
 
-- **GitHub Issues**: [Create an issue](https://github.com/your-username/HealthFraudMLChain/issues)
-- **Email**: your-email@example.com
+- **GitHub Issues**: [Create an issue](https://github.com/Saee2803/HealthFraudMLChain/issues)
+- **Email**: saeebhanuskar@gmail.com
 
 ---
 
