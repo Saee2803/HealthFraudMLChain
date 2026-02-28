@@ -306,7 +306,7 @@ HealthFraudMLChain/
 ├── secret.key                   # 🔑 Secret key
 ├── aes_key.bin                  # 🔐 AES encryption key
 │
-├── requirements_txt       # 📦 Python dependencies
+├── requirements.txt       # 📦 Python dependencies
 ├── start.bat                    # 🚀 Windows startup script
 └── README.md                    # 📖 This file
 ```
@@ -350,7 +350,7 @@ source venv/bin/activate
 #### 3. Install Dependencies
 
 ```powershell
-pip install -r requirements_.txt
+pip install -r requirements.txt
 ```
 
 #### 4. Configure Environment Variables
@@ -932,7 +932,7 @@ Error: ModuleNotFoundError: No module named 'xxx'
 **Solution**: Install missing dependencies
 
 ```powershell
-pip install -r requirements_.txt
+pip install -r requirements.txt
 ```
 
 #### 4. Session Issues
@@ -997,8 +997,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 For questions or support:
 
-- **GitHub Issues**: [Create an issue](https://github.com/your-username/HealthFraudMLChain/issues)
-- **Email**: your-email@example.com
+- **GitHub Issues**: [Create an issue](https://github.com/Saee2803/HealthFraudMLChain/issues)
+- **Email**: saeebhanuskar@gmail.com
 
 ---
 

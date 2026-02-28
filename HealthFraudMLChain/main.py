@@ -93,7 +93,7 @@ except ImportError:
     def normalize_notification_query(*args): return {}
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.secret_key = os.environ.get("SECRET_KEY", "supersecretkey")
 
 # ---------- File Upload Config ----------
 UPLOAD_FOLDER = os.path.join("static", "uploads")
@@ -106,7 +106,8 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # ---------- MongoDB ----------
-client = MongoClient("mongodb+srv://Saee:Saee2830@cluster1.cju5mqx.mongodb.net/?retryWrites=true&w=majority")
+MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb+srv://Saee:Saee2830@cluster1.cju5mqx.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(MONGODB_URI)
 db = client["healthfraudmlchain"]
 users_collection = db["users"]
 claims_collection = db["claims"]
@@ -1567,4 +1568,6 @@ def notifications_list():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    debug = os.environ.get("FLASK_ENV") != "production"
+    app.run(host="0.0.0.0", port=port, debug=debug)
