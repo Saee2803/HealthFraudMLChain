@@ -1,0 +1,11 @@
+# Nixpacks configuration for Railway deployment
+# This file tells Railway how to build and run the application
+
+[phases.setup]
+nixPkgs = ["python310"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "cd HealthFraudMLChain && gunicorn main:app --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120"
