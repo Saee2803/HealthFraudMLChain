@@ -92,11 +92,20 @@ except ImportError:
     def build_notification_doc(*args, **kwargs): return {}
     def normalize_notification_query(*args): return {}
 
-app = Flask(__name__)
+# ---------- BASE DIRECTORY (Production-Safe Path Resolution) ----------
+# Ensures all relative paths work correctly when running with gunicorn
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# ---------- Flask App Configuration ----------
+app = Flask(
+    __name__,
+    static_folder=os.path.join(BASE_DIR, "static"),
+    template_folder=os.path.join(BASE_DIR, "templates")
+)
 app.secret_key = os.environ.get("SECRET_KEY", "supersecretkey")
 
 # ---------- File Upload Config ----------
-UPLOAD_FOLDER = os.path.join("static", "uploads")
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "pdf", "docx"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -174,9 +183,19 @@ columns = None
 model_package = None  # v2.0 format
 model_version = None
 
+# Use absolute path for model loading (production-safe)
+MODEL_PATH = os.path.join(BASE_DIR, "fraud_model.pkl")
+
 try:
-    with open("fraud_model.pkl", "rb") as f:
+    with open(MODEL_PATH, "rb") as f:
         loaded_data = pickle.load(f)
+    
+    # Check if it's v2.0 format (dict with 'model' key)
+    if isinstance(loaded_data, dict) and "model" in loaded_data:
+        model_package = loaded_data
+        model = model_package["model"]
+        model_version = model_package.get("version", "2.0")
+        print(f"✅ ML Model v{model_version} loaded successfully (Binary + TF-IDF)")
     
     # Check if it's v2.0 format (dict with 'model' key)
     if isinstance(loaded_data, dict) and "model" in loaded_data:

@@ -4,7 +4,9 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import os
 
-KEY_FILE = "aes_key.bin"
+# Use absolute path for key file (production-safe)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+KEY_FILE = os.path.join(BASE_DIR, "aes_key.bin")
 
 
 # Load or create AES key
@@ -14,6 +16,7 @@ def load_key():
             return f.read()
     else:
         key = get_random_bytes(32)  # AES-256 key (32 bytes)
+        os.makedirs(os.path.dirname(KEY_FILE), exist_ok=True)
         with open(KEY_FILE, "wb") as f:
             f.write(key)
         return key

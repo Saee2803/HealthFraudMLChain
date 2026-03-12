@@ -5,6 +5,8 @@ myenv/
 myenv310/
 code/myenv/
 code/myenv310/
+env/
+ENV/
 
 # Python cache
 __pycache__/
@@ -16,10 +18,15 @@ __pycache__/
 # Environment variables and secrets
 .env
 *.env
+.env.local
+.env.production
 aes_key.bin
+secret.key
 *.key
 *.pem
 kaggle.json
+.ecies_private_key
+.ecies_public_key
 
 # IDE
 .vscode/
@@ -30,6 +37,7 @@ kaggle.json
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Byte-compiled / optimized files
 *.py[cod]
@@ -39,6 +47,7 @@ Thumbs.db
 dist/
 build/
 *.egg-info/
+*.egg
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
@@ -46,6 +55,34 @@ build/
 # Database files
 *.db
 *.sqlite3
+instance/
 
 # Log files
 *.log
+logs/
+
+# Coverage reports
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Uploads (keep folder but not contents)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Node.js (if any)
+node_modules/
+
+# Model files (optional - you may want to include these)
+# Uncomment the lines below if you DON'T want to track model files
+# *.pkl
+# models/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Render / Railway deployment
+.render/
+.railway/

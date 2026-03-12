@@ -1,0 +1,11 @@
+# Chapter 1: Abstract
+
+---
+
+The increasing prevalence of fraudulent claims in the healthcare insurance sector has resulted in significant financial losses for insurers and higher premiums for policyholders. Traditional fraud detection methods rely heavily on manual verification and rule-based systems, which are time-consuming, error-prone, and incapable of identifying sophisticated fraud patterns. To address these challenges, this project presents an integrated web-based platform that combines Machine Learning and Blockchain technology for automated health insurance fraud detection. The system analyzes insurance claim data to extract key features such as claim amount, diagnosis codes, treatment patterns, and provider information, and applies a trained Random Forest classifier with TF-IDF feature extraction to calculate fraud probability scores. Claims are processed through a five-layer security architecture that includes role-based access control for patients, doctors, and administrators, smart-contract-like business rules for automated validation, ECDSA digital signatures for non-repudiation, ECIES asymmetric encryption for protecting sensitive patient data, and blockchain integrity verification for tamper detection.
+
+The platform incorporates advanced features including collusion detection algorithms to identify suspicious patterns between doctors and hospitals, insider threat monitoring to detect anomalous administrative behavior, and Explainable AI features to provide interpretable fraud predictions for informed decision-making. Approved claims are immutably recorded on a blockchain ledger, ensuring transparency, auditability, and tamper-proof record keeping. The system provides role-based dashboards for patients, doctors, and administrators, enabling efficient claim submission, clinical review, and approval workflows with real-time notifications. Functional evaluation and testing demonstrate that the system effectively reduces fraud detection time, improves accuracy over traditional rule-based methods, and maintains regulatory compliance through comprehensive audit trails. This makes it beneficial for healthcare providers, insurance companies, and regulatory bodies seeking a secure, scalable, and data-driven approach to combating insurance fraud.
+
+---
+
+---
