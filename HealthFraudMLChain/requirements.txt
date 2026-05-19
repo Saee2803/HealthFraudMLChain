@@ -15,7 +15,8 @@ pymongo==4.6.1
 dnspython==2.6.1
 
 # Machine Learning
-pandas==2.2.1
+
+pandas==2.1.4
 numpy==1.26.4
 scikit-learn==1.4.0
 scipy==1.12.0
